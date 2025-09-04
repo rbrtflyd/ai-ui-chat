@@ -32,15 +32,16 @@ export default function Page() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-2 bg-white w-full p-4 rounded-md">
-        <input
+        className="flex flex-col gap-2 bg-white w-full p-4 rounded-md shadow-lg h-50 justify-between items-start">
+        <textarea
+          className="w-full h-full"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message..."
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md shadow border border-slate-200">
+          className="bg-blue-500 text-white py-2 px-4 rounded-md border border-slate-200 hover:cursor-pointer">
           Send
         </button>
       </form>
