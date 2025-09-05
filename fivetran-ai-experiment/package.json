@@ -13,6 +13,7 @@
     "@ai-sdk/openai": "^2.0.23",
     "@ai-sdk/react": "^2.0.30",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/themes": "^3.2.1",
     "ai": "^5.0.30",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

@@ -4,6 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-surface-default: #fff;
+  --color-surface-light: #f7f8fa;
+  --color-surface-moderate: #edeff2;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
