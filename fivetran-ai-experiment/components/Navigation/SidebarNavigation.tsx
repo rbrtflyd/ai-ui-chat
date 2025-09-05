@@ -33,6 +33,9 @@ function NavigationItem({ label, href }: { label: string; href: string }) {
 export default function SidebarNavigation() {
   return (
     <div className="flex flex-col w-62 h-full bg-surface-light shrink-0">
+      <div className="px-4 py-3 h-30 flex flex-row items-center border-b font-semibold">
+        Fivetran
+      </div>
       <div className="flex flex-col w-full h-full">
         {navigationItems.map((item) => (
           <NavigationItem
