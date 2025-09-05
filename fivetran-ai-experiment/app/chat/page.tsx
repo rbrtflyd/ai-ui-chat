@@ -41,7 +41,7 @@ export default function Page() {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md border border-slate-200 hover:cursor-pointer">
+          className="bg-primary text-white py-2 px-4 rounded hover:cursor-pointer">
           Send
         </button>
       </form>
