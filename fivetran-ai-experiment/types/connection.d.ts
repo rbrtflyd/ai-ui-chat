@@ -1,7 +1,9 @@
+import SourceType from './sourceType';
+
 interface Connection {
   id: string;
   name: string;
-  source_type: string;
+  source_type: SourceType;
   destination: string;
   last_synced_at: string;
   isEnabled: boolean;
