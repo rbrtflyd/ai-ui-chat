@@ -36,8 +36,14 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {connections.map((connection) => {
+            // Handle both Date objects and date strings from JSON serialization
+            const lastSyncTime =
+              connection.lastSyncTime instanceof Date
+                ? connection.lastSyncTime
+                : new Date(connection.lastSyncTime);
+
             const timeSinceSync = Math.floor(
-              (Date.now() - connection.lastSyncTime.getTime()) / (1000 * 60)
+              (Date.now() - lastSyncTime.getTime()) / (1000 * 60)
             );
             const lastSyncText =
               timeSinceSync < 60

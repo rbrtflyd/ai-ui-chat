@@ -1,4 +1,5 @@
 import { ConnectionList } from '../Connections/ConnectionList';
+import { ConnectionTable } from '../Connections/ConnectionTable';
 
 interface ToolResultProps {
   result: {
@@ -22,11 +23,7 @@ export function ToolResult({ result }: ToolResultProps) {
       return (
         <div className="my-4">
           <h3 className="text-lg font-semibold mb-3">Connection Status</h3>
-          <ConnectionList
-            connections={result.connections}
-            displayOptions={result.displayOptions}
-            summary={result.summary}
-          />
+          <ConnectionTable connections={result.connections} />
         </div>
       );
 
