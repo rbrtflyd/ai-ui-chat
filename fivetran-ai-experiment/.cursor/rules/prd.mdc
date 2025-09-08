@@ -1,0 +1,288 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Fivetran AI Interface Prototype - Product Requirements Document
+
+## Product Overview
+
+**Product Name:** Fivetran AI Command Interface  
+**Version:** Prototype v1.0  
+**Tech Stack:** Next.js, AI SDK, OpenAI, React, TypeScript
+
+### Vision
+
+Build an AI-powered conversational interface for Fivetran that generates contextual UI components in response to user queries about their data integration instance. This interface will help users quickly access relevant information and perform common tasks without navigating through traditional dashboard interfaces.
+
+### Core Problem
+
+Fivetran users need to quickly understand their data pipeline health, diagnose issues, and explore data lineage. Traditional dashboards require multiple clicks and prior knowledge of where information lives. An AI interface can intelligently surface the right information based on natural language queries.
+
+## Technical Architecture
+
+### Data Model
+
+Create comprehensive dummy data representing a realistic Fivetran instance:
+
+```typescript
+// Core Entities
+type Connection = {
+  id: string;
+  name: string;
+  source: SourceType; // 'salesforce', 'mysql', 'google_analytics', etc.
+  destination: DestinationType; // 'snowflake', 'bigquery', 'redshift', etc.
+  status: 'running' | 'paused' | 'broken' | 'setup_incomplete';
+  lastSyncTime: Date;
+  syncFrequency: string; // '15min', '1h', '24h', etc.
+  rowCount: number;
+  syncHistory: SyncEvent[];
+  schema: SchemaInfo;
+  config: ConnectionConfig;
+};
+
+type Transformation = {
+  id: string;
+  name: string;
+  type: 'dbt' | 'sql' | 'quickstart';
+  dependencies: string[]; // connection IDs
+  status: 'success' | 'failed' | 'running';
+  lineage: ColumnLineage[];
+  lastRunTime: Date;
+};
+
+type SyncEvent = {
+  timestamp: Date;
+  status: 'success' | 'failed' | 'warning';
+  rowsProcessed: number;
+  duration: number;
+  errorMessage?: string;
+};
+```
+
+### AI Tool Architecture
+
+**Function Calling Approach:** The AI uses predefined tools to generate UI components based on user intent.
+
+**Parameter Strategy:** Hybrid approach combining structured parameters for common cases with natural language parsing for complex queries.
+
+#### Core Tools
+
+1. **show_connection_status**
+
+   - Display connection health, filtering, and status information
+   - Supports status filtering, source type filtering, time-based queries
+   - Multiple view types: table, cards, summary, charts
+
+2. **show_lineage_diagram**
+
+   - Visualize data lineage from source through transformations to destination
+   - Can focus on specific connections, tables, or columns
+   - Interactive diagram with drill-down capabilities
+
+3. **show_sync_performance**
+
+   - Display sync metrics, performance trends, and historical data
+   - Time range filtering, performance comparisons
+   - Charts and metrics dashboards
+
+4. **show_error_analysis**
+
+   - Surface recent errors, error patterns, and troubleshooting information
+   - Group by error type, affected connections, time periods
+
+5. **generate_dashboard_buttons**
+   - Analyze current instance state to create contextual quick-actions
+   - Surface urgent items, common tasks, and proactive recommendations
+
+### Tool Parameter Schema
+
+```typescript
+const toolParameterSchema = {
+  filters: {
+    type: 'object',
+    properties: {
+      status: {
+        type: 'array',
+        items: { enum: ['running', 'paused', 'broken', 'setup_incomplete'] },
+      },
+      sources: { type: 'array', items: { type: 'string' } },
+      time_range: {
+        type: 'string',
+        description: "e.g. '1h', '24h', '7d', '30d'",
+      },
+      search_term: { type: 'string' },
+    },
+  },
+  custom_criteria: {
+    type: 'string',
+    description: 'Complex filtering logic in natural language',
+  },
+  display_options: {
+    type: 'object',
+    properties: {
+      view_type: { enum: ['table', 'cards', 'summary', 'chart', 'diagram'] },
+      sort_by: { type: 'string' },
+      limit: { type: 'number', default: 20 },
+      group_by: { type: 'string' },
+    },
+  },
+};
+```
+
+## Implementation Plan
+
+### Phase 1: Core Chat Interface
+
+**Goal:** Basic query → UI component generation
+
+**Deliverables:**
+
+- Chat interface with message history
+- One working tool: `show_connection_status`
+- Dummy data for ~50 connections across major source types
+- Basic UI components: ConnectionCard, StatusTable, StatusSummary
+
+**Example Queries:**
+
+- "Show me all failing connections"
+- "What connections synced in the last hour?"
+- "Show Salesforce connections sorted by last sync time"
+
+### Phase 2: Rich UI Components
+
+**Goal:** Multiple tools with sophisticated visualizations
+
+**Deliverables:**
+
+- Lineage diagram tool with interactive visualization
+- Performance metrics with charts and trends
+- Error analysis with grouping and filtering
+- Enhanced UI components with drill-down capabilities
+
+### Phase 3: Proactive Dashboard
+
+**Goal:** AI-generated contextual buttons and recommendations
+
+**Deliverables:**
+
+- Smart button generation based on instance state
+- Proactive alerts and recommendations
+- Quick actions for common tasks
+- Integration with notification patterns
+
+## File Structure
+
+```
+/src
+  /data
+    - dummyData.ts          # Comprehensive fake Fivetran data
+    - dataQueries.ts        # Data filtering and transformation functions
+    - types.ts              # TypeScript type definitions
+
+  /components
+    /ui
+      - ConnectionCard.tsx     # Individual connection display
+      - StatusTable.tsx       # Tabular connection status view
+      - LineageDiagram.tsx    # Data lineage visualization
+      - PerformanceChart.tsx  # Sync performance metrics
+      - ErrorSummary.tsx      # Error analysis display
+      - DashboardButton.tsx   # Contextual action buttons
+
+    - ChatMessage.tsx        # Chat message container
+    - ToolResult.tsx         # Wrapper for tool-generated UI
+
+  /ai
+    - tools.ts              # AI tool definitions and implementations
+    - prompts.ts            # System prompts with Fivetran context
+    - types.ts              # AI-related type definitions
+
+  /app
+    - chat/page.tsx         # Main chat interface
+    - api/chat/route.ts     # Chat API endpoint
+```
+
+## Success Metrics
+
+### User Experience
+
+- Users can find connection status information 3x faster than traditional dashboard
+- 80% of common queries result in useful UI components without follow-up questions
+- Users successfully complete data investigation tasks with minimal navigation
+
+### Technical Performance
+
+- AI tool selection accuracy >90% for common query types
+- Component rendering time <200ms after AI response
+- Natural language query understanding covers 95% of realistic user intents
+
+## User Stories
+
+### Primary Use Cases
+
+1. **Health Check:** "Show me connections that need attention"
+2. **Troubleshooting:** "Why did my Salesforce sync fail yesterday?"
+3. **Performance Monitoring:** "How are my database connections performing this week?"
+4. **Data Lineage:** "Show me how customer data flows from Salesforce to Snowflake"
+5. **Discovery:** "What data sources do we have connected?"
+
+### Advanced Use Cases
+
+1. **Complex Filtering:** "Show me all API-based connections that haven't synced in 24 hours, excluding test environments"
+2. **Cross-Analysis:** "Compare sync performance between MySQL and PostgreSQL connections"
+3. **Historical Investigation:** "What connections were failing last Tuesday?"
+
+## Technical Considerations
+
+### AI Prompt Strategy
+
+- Include Fivetran domain knowledge in system prompts
+- Provide context about ELT concepts, common source types, and typical user workflows
+- Guide AI to ask clarifying questions when queries are ambiguous
+
+### Error Handling
+
+- Graceful degradation when tools fail
+- Clear error messages in chat interface
+- Fallback options when AI misinterprets queries
+
+### Performance Optimization
+
+- Lazy load heavy UI components
+- Cache frequently accessed dummy data
+- Optimize chart rendering for large datasets
+
+### Future Extensibility
+
+- Plugin architecture for adding new tools
+- Configurable tool parameters for different Fivetran plan types
+- Integration points for real Fivetran API data
+
+## Prototype Limitations
+
+### Data Scope
+
+- Using dummy data only (no real Fivetran API integration)
+- Limited to ~50 connections and basic transformation scenarios
+- Simplified lineage relationships
+
+### AI Capabilities
+
+- No learning from user feedback
+- Static tool definitions (no dynamic tool creation)
+- Limited to predefined UI component types
+
+### Scalability
+
+- Not optimized for large-scale data visualization
+- No real-time updates or live sync status
+- Limited concurrent user support
+
+## Next Steps After Prototype
+
+1. **Real Data Integration:** Connect to Fivetran APIs for live data
+2. **User Testing:** Validate AI query understanding with real users
+3. **Advanced Visualizations:** Add more sophisticated charts and diagrams
+4. **Personalization:** Learn user preferences and common query patterns
+5. **Mobile Experience:** Optimize interface for mobile devices
