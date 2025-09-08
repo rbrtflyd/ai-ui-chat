@@ -35,8 +35,8 @@ const connectionStatusSchema = z.object({
 export const showConnectionStatus = tool({
   description:
     'Display connection health, filtering, and status information for Fivetran connections',
-  parameters: connectionStatusSchema,
-  execute: async (params: any) => {
+  inputSchema: connectionStatusSchema,
+  execute: async (params) => {
     const connections = queryConnections({
       filters: params.filters,
       limit: params.displayOptions?.limit,

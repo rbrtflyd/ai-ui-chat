@@ -8,6 +8,15 @@ interface ToolResultProps {
 }
 
 export function ToolResult({ result }: ToolResultProps) {
+  // Add safety check
+  if (!result || !result.type) {
+    return (
+      <div className="my-4 p-4 bg-yellow-100 rounded">
+        <p>Tool result is missing or invalid</p>
+      </div>
+    );
+  }
+
   switch (result.type) {
     case 'connection_status':
       return (

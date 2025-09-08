@@ -52,19 +52,24 @@ export default function ChatThreadWrapper() {
                 .filter((part): part is ToolUIPart =>
                   part.type.startsWith('tool-')
                 )
-                .map((tool, index) => (
-                  <div
-                    key={index}
-                    className="mt-3">
-                    {tool.state === 'output-available' && tool.output && (
+                .map((tool, index) => {
+                  // Add safety check for tool.output
+                  if (!tool.output) {
+                    return null;
+                  }
+
+                  return (
+                    <div
+                      key={index}
+                      className="mt-3">
                       <ToolResult
                         result={
                           tool.output as { type: string; [key: string]: any }
                         }
                       />
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
             </div>
           </motion.div>
         ))}
@@ -94,7 +99,6 @@ export default function ChatThreadWrapper() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about your Fivetran connections..."
             className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={status === 'streaming' || !input.trim()}
           />
           <button
             type="submit"
