@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 interface ConnectionTableProps {
   connections: Connection[];
@@ -67,7 +68,15 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
                   {connection.source.name}
                 </TableCell>
                 <TableCell className="px-6 py-4 whitespace-nowrap">
-                  <Badge>{connection.status.replace('_', ' ')}</Badge>
+                  <Badge>
+                    <div
+                      className={cn(
+                        statusColors[connection.status],
+                        'size-1 rounded-full mr-2'
+                      )}
+                    />
+                    {connection.status.replace('_', ' ')}
+                  </Badge>
                 </TableCell>
                 <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {lastSyncText}

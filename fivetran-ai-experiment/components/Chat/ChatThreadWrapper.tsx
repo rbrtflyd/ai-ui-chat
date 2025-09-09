@@ -1,7 +1,6 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
-import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ToolResult } from '../Tools/ToolResult';
 import { ToolUIPart } from 'ai';
@@ -13,9 +12,16 @@ import {
   ChainOfThoughtStep,
 } from '../ai-elements/chain-of-thought';
 import { SearchIcon, BrainIcon, CheckIcon } from 'lucide-react';
+import {
+  PromptInput,
+  PromptInputBody,
+  PromptInputTextarea,
+  PromptInputToolbar,
+  PromptInputTools,
+  PromptInputSubmit,
+} from '../ai-elements/prompt-input';
 
 export default function ChatThreadWrapper() {
-  const [input, setInput] = useState('');
   const { messages, status, sendMessage } = useChat();
 
   return (
@@ -138,29 +144,26 @@ export default function ChatThreadWrapper() {
           <Text variant="shine">Thinking...</Text>
         )}
       </div>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          sendMessage({ text: input });
-          setInput('');
-        }}
-        className=" bg-white p-4">
-        <div className="flex gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask Fivetran Assistant..."
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            disabled={status === 'streaming' || !input.trim()}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
-            Send
-          </button>
-        </div>
-      </form>
+      <div className="px-4 pb-4">
+        <PromptInput
+          onSubmit={(message, event) => {
+            sendMessage({ text: message.text || '' });
+          }}
+          className="bg-white p-4">
+          <PromptInputBody>
+            <PromptInputTextarea
+              placeholder="Ask Fivetran Assistant..."
+              disabled={status === 'streaming'}
+            />
+          </PromptInputBody>
+          <PromptInputToolbar>
+            <PromptInputSubmit
+              status={status}
+              disabled={status === 'streaming'}
+            />
+          </PromptInputToolbar>
+        </PromptInput>
+      </div>
     </div>
   );
 }
