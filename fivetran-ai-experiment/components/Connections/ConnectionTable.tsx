@@ -17,10 +17,10 @@ interface ConnectionTableProps {
 }
 
 const statusColors = {
-  running: 'text-green-600',
-  paused: 'text-yellow-600',
-  broken: 'text-red-600',
-  setup_incomplete: 'text-gray-600',
+  running: 'bg-green-600',
+  paused: 'bg-yellow-600',
+  broken: 'bg-red-600',
+  setup_incomplete: 'bg-gray-600',
 };
 
 export function ConnectionTable({ connections }: ConnectionTableProps) {
@@ -67,12 +67,15 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
                 <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {connection.source.name}
                 </TableCell>
-                <TableCell className="px-6 py-4 whitespace-nowrap">
-                  <Badge>
+                <TableCell className="px-6 py-4">
+                  <Badge className="border border-gray-20 flex flex-row items-center rounded-full px-3 leading-none py-1 w-fit capitalize text-sm">
                     <div
+                      style={{
+                        backgroundColor: statusColors[connection.status],
+                      }}
                       className={cn(
                         statusColors[connection.status],
-                        'size-1 rounded-full mr-2'
+                        'size-2 rounded-full mr-2'
                       )}
                     />
                     {connection.status.replace('_', ' ')}
