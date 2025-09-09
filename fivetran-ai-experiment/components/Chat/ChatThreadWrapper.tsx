@@ -5,13 +5,14 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ToolResult } from '../Tools/ToolResult';
 import { ToolUIPart } from 'ai';
+import { Text } from '../ui/text';
 
 export default function ChatThreadWrapper() {
   const [input, setInput] = useState('');
   const { messages, status, sendMessage } = useChat();
 
   return (
-    <div className="flex flex-col w-full max-w-4xl mx-auto h-full justify-between">
+    <div className="flex flex-col w-full max-w-2xl mx-auto h-full justify-between">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <motion.div
@@ -64,16 +65,7 @@ export default function ChatThreadWrapper() {
           </motion.div>
         ))}
 
-        {status === 'streaming' && (
-          <div className="flex justify-start">
-            <div className="bg-gray-100 rounded-lg p-4">
-              <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
-                <span className="text-gray-600">Thinking...</span>
-              </div>
-            </div>
-          </div>
-        )}
+        {status === 'streaming' && <Text variant="shine">Thinking...</Text>}
       </div>
 
       <form

@@ -1,4 +1,3 @@
-import { ConnectionList } from '../Connections/ConnectionList';
 import { ConnectionTable } from '../Connections/ConnectionTable';
 
 interface ToolResultProps {
@@ -22,7 +21,6 @@ export function ToolResult({ result }: ToolResultProps) {
     case 'connection_status':
       return (
         <div className="my-4">
-          <h3 className="text-lg font-semibold mb-3">Connection Status</h3>
           <ConnectionTable connections={result.connections} />
         </div>
       );
