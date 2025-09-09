@@ -20,7 +20,7 @@ export function ToolResult({ result }: ToolResultProps) {
   switch (result.type) {
     case 'connection_status':
       return (
-        <div className="my-4 overflow-x-auto">
+        <div className="my-4 overflow-x-auto w-full">
           <ConnectionTable connections={result.connections} />
         </div>
       );

@@ -1,3 +1,4 @@
+import { Badge } from '@radix-ui/themes';
 import { Connection } from '../../types';
 
 import {
@@ -66,12 +67,7 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
                   {connection.source.name}
                 </TableCell>
                 <TableCell className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`text-sm font-medium ${
-                      statusColors[connection.status]
-                    }`}>
-                    {connection.status.replace('_', ' ')}
-                  </span>
+                  <Badge>{connection.status.replace('_', ' ')}</Badge>
                 </TableCell>
                 <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {lastSyncText}
