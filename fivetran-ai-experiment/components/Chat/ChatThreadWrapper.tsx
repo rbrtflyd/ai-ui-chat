@@ -12,7 +12,10 @@ export default function ChatThreadWrapper() {
   const { messages, status, sendMessage } = useChat();
 
   return (
-    <div className="flex flex-col w-full max-w-2xl mx-auto h-full justify-between">
+    <div className="flex flex-col w-full max-w-2xl mx-auto h-full justify-between absolute inset-y-0 right-0 bg-white border-l border-gray-10">
+      <div className="border-b border-gray-10 px-8 py-4">
+        Fivetran Assistant
+      </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <motion.div
@@ -65,7 +68,9 @@ export default function ChatThreadWrapper() {
           </motion.div>
         ))}
 
-        {status === 'streaming' && <Text variant="shine">Thinking...</Text>}
+        {status === 'streaming' && messages.length === 0 && (
+          <Text variant="shine">Thinking...</Text>
+        )}
       </div>
 
       <form
@@ -74,12 +79,12 @@ export default function ChatThreadWrapper() {
           sendMessage({ text: input });
           setInput('');
         }}
-        className="border-t bg-white p-4">
+        className=" bg-white p-4">
         <div className="flex gap-2">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about your Fivetran connections..."
+            placeholder="Ask Fivetran Assistant..."
             className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
