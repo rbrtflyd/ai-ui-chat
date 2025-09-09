@@ -18,35 +18,25 @@ export default function ChatThreadWrapper() {
             key={message.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`flex ${
-              message.role === 'user' ? 'justify-end' : 'justify-start'
-            }`}>
+            className={`flex`}>
             <div
-              className={`max-w-3xl rounded-lg p-4 ${
+              className={` p-4 text-gray-500 ${
                 message.role === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-900'
+                  ? 'shadow-md border rounded-lg bg-white'
+                  : ''
               }`}>
-              <div className="text-sm font-medium mb-1">
-                {message.role === 'user' ? 'You' : 'Fivetran AI'}
-              </div>
-
               {message.parts.map((part) => {
                 if (part.type === 'text') {
                   return (
-                    <div
+                    <motion.div
                       key={`${part.type}-${Math.random()}`}
                       className="whitespace-pre-wrap">
                       {part.text}
-                    </div>
+                    </motion.div>
                   );
                 }
                 return null;
               })}
-
-              {/* {message.content && (
-                <div className="whitespace-pre-wrap">{message.content}</div>
-              )} */}
 
               {message.parts
                 .filter((part): part is ToolUIPart =>
@@ -59,7 +49,7 @@ export default function ChatThreadWrapper() {
                   }
 
                   return (
-                    <div
+                    <motion.div
                       key={index}
                       className="mt-3">
                       <ToolResult
@@ -67,7 +57,7 @@ export default function ChatThreadWrapper() {
                           tool.output as { type: string; [key: string]: any }
                         }
                       />
-                    </div>
+                    </motion.div>
                   );
                 })}
             </div>
