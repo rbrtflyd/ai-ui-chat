@@ -1,5 +1,15 @@
 import { Connection } from '../../types';
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+
 interface ConnectionTableProps {
   connections: Connection[];
 }
@@ -14,27 +24,17 @@ const statusColors = {
 export function ConnectionTable({ connections }: ConnectionTableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Connection
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Source
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Last Sync
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Rows
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+      <Table>
+        <TableHeader className="bg-gray-50">
+          <TableRow>
+            <TableHead>Connection</TableHead>
+            <TableHead>Source</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Last Sync</TableHead>
+            <TableHead>Rows</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {connections.map((connection) => {
             // Handle both Date objects and date strings from JSON serialization
             const lastSyncTime =
@@ -51,39 +51,39 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
                 : `${Math.floor(timeSinceSync / 60)}h ago`;
 
             return (
-              <tr
+              <TableRow
                 key={connection.id}
                 className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
+                <TableCell className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-gray-900">
                     {connection.name}
                   </div>
                   <div className="text-sm text-gray-500">
                     {connection.destination}
                   </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                </TableCell>
+                <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {connection.source.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                </TableCell>
+                <TableCell className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`text-sm font-medium ${
                       statusColors[connection.status]
                     }`}>
                     {connection.status.replace('_', ' ')}
                   </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                </TableCell>
+                <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {lastSyncText}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                </TableCell>
+                <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {connection.rowCount.toLocaleString()}
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

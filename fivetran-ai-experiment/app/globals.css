@@ -2,19 +2,16 @@
 @import 'tw-animate-css';
 
 @theme {
-  --color-surface-default: #ffffff;
-  --color-surface-light: #f7f8fa;
-  --color-surface-moderate: #edeff2;
-  --color-surface-dark: #626366;
-
   --color-gray-05: #f7f8fa;
   --color-gray-10: #edeff2;
-  --color-gray-20: #626366;
-  --color-gray-30: #47484b;
-  --color-gray-40: #323336;
-  --color-gray-50: #212224;
-  --color-gray-60: #111214;
-  --color-gray-70: #010204;
+  --color-gray-20: #dfe1e5;
+  --color-gray-30: #d0d3d9;
+  --color-gray-40: #b0b2b8;
+  --color-gray-50: #8a8c8f;
+  --color-gray-60: #626366;
+  --color-gray-70: #494a4c;
+  --color-gray-80: #313233;
+  --color-gray-90: #222222;
 
   --color-blue-05: #ebf1ff;
   --color-blue-10: #ccddff;
@@ -74,6 +71,9 @@
 
 @layer base {
   * {
-    @apply bg-white text-gray-500 border-gray-300;
+    @apply border-gray-10 text-gray-80;
+  }
+  body {
+    @apply bg-white;
   }
 }

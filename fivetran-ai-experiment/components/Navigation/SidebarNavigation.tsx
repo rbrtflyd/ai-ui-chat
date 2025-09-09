@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Text } from '@radix-ui/themes';
+import Image from 'next/image';
 
 const navigationItems = [
   {
@@ -32,9 +33,16 @@ function NavigationItem({ label, href }: { label: string; href: string }) {
 
 export default function SidebarNavigation() {
   return (
-    <div className="flex flex-col w-62 h-full bg-surface-light shrink-0 border-r">
+    <div className="flex flex-col w-62 h-full bg-gray-05 shrink-0 border-r">
       <div className="px-4 py-3 h-30 flex flex-row items-center border-b font-semibold">
-        Fivetran
+        <Link href="/">
+          <Image
+            src="/fivetran.svg"
+            alt="Fivetran"
+            width={130}
+            height={56}
+          />
+        </Link>
       </div>
       <div className="flex flex-col w-full h-full">
         {navigationItems.map((item) => (
