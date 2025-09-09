@@ -55,7 +55,7 @@ export function ConnectionTable({ connections }: ConnectionTableProps) {
             return (
               <TableRow
                 key={connection.id}
-                className="hover:bg-gray-50">
+                className="hover:bg-transparent">
                 <TableCell className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-gray-900">
                     {connection.name}
