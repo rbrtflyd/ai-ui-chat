@@ -23,25 +23,12 @@ export default function ChatThreadWrapper() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className={`flex`}>
-            <div
+            <motion.div
               className={` p-4 text-gray-500 ${
                 message.role === 'user'
                   ? 'shadow-md border rounded-lg bg-white'
                   : ''
               }`}>
-              {message.parts.map((part) => {
-                if (part.type === 'text') {
-                  return (
-                    <motion.div
-                      key={`${part.type}-${Math.random()}`}
-                      className="whitespace-pre-wrap">
-                      {part.text}
-                    </motion.div>
-                  );
-                }
-                return null;
-              })}
-
               {message.parts
                 .filter((part): part is ToolUIPart =>
                   part.type.startsWith('tool-')
@@ -64,7 +51,19 @@ export default function ChatThreadWrapper() {
                     </motion.div>
                   );
                 })}
-            </div>
+              {message.parts.map((part) => {
+                if (part.type === 'text') {
+                  return (
+                    <motion.div
+                      key={`${part.type}-${Math.random()}`}
+                      className="whitespace-pre-wrap">
+                      {part.text}
+                    </motion.div>
+                  );
+                }
+                return null;
+              })}
+            </motion.div>
           </motion.div>
         ))}
 
