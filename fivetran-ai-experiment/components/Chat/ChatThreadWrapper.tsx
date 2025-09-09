@@ -19,7 +19,7 @@ export default function ChatThreadWrapper() {
   const { messages, status, sendMessage } = useChat();
 
   return (
-    <div className="flex flex-col w-full max-w-2xl mx-auto justify-between absolute inset-y-4 right-4 bg-white/50 backdrop-blur border overflow-hidden rounded-lg shadow-lg border-gray-10">
+    <div className="flex flex-col w-full max-w-3xl mx-auto justify-between absolute inset-y-4 right-4 bg-white/50 backdrop-blur border overflow-hidden rounded-lg shadow-lg border-gray-10">
       <div className="border-b border-gray-10 px-8 py-4">
         Fivetran Assistant
       </div>
@@ -147,7 +147,7 @@ export default function ChatThreadWrapper() {
         }}
         className=" bg-white p-4">
         <div className="flex gap-2">
-          <textarea
+          <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask Fivetran Assistant..."
